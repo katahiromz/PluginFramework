@@ -3,11 +3,17 @@
 // This file is public domain software.
 #include "PluginFramework.h"
 #include <cstdio>
+#include <shlwapi.h>
 
 int main(int argc, char **argv)
 {
+    TCHAR szDir[MAX_PATH];
+    GetModuleFileName(NULL, szDir, ARRAYSIZE(szDir));
+    *PathFindFileName(szDir) = 0;
+    PathRemoveBackslash(szDir);
+
     std::vector<PLUGIN_EX> pis;
-    if (!PF_LoadAll(pis, argc >= 2 ? argv[1] : TEXT(".")))
+    if (!PF_LoadAll(pis, szDir))
     {
         printf("unable to load\n");
         return 1;
@@ -25,6 +31,7 @@ int main(int argc, char **argv)
         printf("plugin_company: '%s'\n", pis[i].plugin_company);
         printf("plugin_copyright: '%s'\n", pis[i].plugin_copyright);
         printf("plugin_instance: %p\n", pis[i].plugin_instance);
+        printf("plugin_pathname: '%s'\n", pis[i].plugin_pathname);
     }
 
     PF_ActAll(pis, 1, 2, 3);

@@ -77,7 +77,7 @@ set_target_properties(Plugin2 PROPERTIES PREFIX "")
 set_target_properties(Plugin2 PROPERTIES SUFFIX "")
 
 # executable
-add_executable(PluginTest WIN32 PluginFramework.cpp PluginTest.cpp)
+add_executable(PluginTest PluginFramework.cpp PluginTest.cpp)
 target_link_libraries(PluginTest PRIVATE shlwapi)
 
 # test

@@ -150,15 +150,9 @@ BOOL PF_UnloadAll(std::vector<PLUGIN_EX>& pis)
 
 BOOL PF_LoadOne(PLUGIN_EX *pi, const TCHAR *pathname)
 {
-    if (pathname == NULL)
-    {
-        pathname = pi->plugin_pathname;
-    }
-    else
-    {
-        GetFullPathName(pathname, ARRAYSIZE(pi->plugin_pathname),
-                        pi->plugin_pathname, NULL);
-    }
+    assert(pathname != NULL);
+    GetFullPathName(pathname, ARRAYSIZE(pi->plugin_pathname),
+                    pi->plugin_pathname, NULL);
 
     DWORD attrs = GetFileAttributes(pi->plugin_pathname);
     if (attrs == 0xFFFFFFFF || (attrs & FILE_ATTRIBUTE_DIRECTORY))
@@ -224,7 +218,8 @@ BOOL PF_LoadAll(std::vector<PLUGIN_EX>& pis, const TCHAR *dir)
 
     TCHAR szPath[MAX_PATH];
     WIN32_FIND_DATA find;
-    if (HANDLE hFind = FindFirstFile(szSpec, &find))
+    HANDLE hFind = FindFirstFile(szSpec, &find);
+    if (hFind != INVALID_HANDLE_VALUE)
     {
         do
         {
