@@ -18,7 +18,7 @@ static void PF_Init(PLUGIN_EX *pi)
     pi->framework_window = NULL;
 }
 
-static BOOL PF_IsValid(const PLUGIN_EX *pi)
+static BOOL PF_Validate(PLUGIN_EX *pi)
 {
     if (!pi)
     {
@@ -30,22 +30,12 @@ static BOOL PF_IsValid(const PLUGIN_EX *pi)
         assert(0);
         return FALSE;
     }
-    if (lstrcmp(pi->framework_name, FRAMEWORK_NAME) != 0)
+    if (lstrcmpi(pi->framework_name, FRAMEWORK_NAME) != 0)
     {
         assert(0);
         return FALSE;
     }
     if (pi->framework_instance == NULL)
-    {
-        assert(0);
-        return FALSE;
-    }
-    return TRUE;
-}
-
-static BOOL PF_Validate(PLUGIN_EX *pi)
-{
-    if (!pi)
     {
         assert(0);
         return FALSE;
