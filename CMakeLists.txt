@@ -6,6 +6,10 @@
 # CMake minimum version
 cmake_minimum_required(VERSION 2.4)
 
+if (COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+endif(COMMAND cmake_policy)
+
 # enable testing
 enable_testing()
 
@@ -62,12 +66,17 @@ endif()
 
 ##############################################################################
 
+option(PF_USE_UNICODE "Use Unicode for PluginFramework" ON)
+
 # Plugin1.plugin
 add_library(Plugin1 SHARED Plugin1.c Plugin1.def)
 target_compile_definitions(Plugin1 PRIVATE -DPLUGIN_BUILD)
 set_target_properties(Plugin1 PROPERTIES OUTPUT_NAME "Plugin1.plugin")
 set_target_properties(Plugin1 PROPERTIES PREFIX "")
 set_target_properties(Plugin1 PROPERTIES SUFFIX "")
+if (PF_USE_UNICODE)
+    target_compile_definitions(Plugin1 PRIVATE -DUNICODE -D_UNICODE)
+endif()
 
 # Plugin2.plugin
 add_library(Plugin2 SHARED Plugin2.c Plugin2.def)
@@ -75,10 +84,22 @@ target_compile_definitions(Plugin2 PRIVATE -DPLUGIN_BUILD)
 set_target_properties(Plugin2 PROPERTIES OUTPUT_NAME "Plugin2.plugin")
 set_target_properties(Plugin2 PROPERTIES PREFIX "")
 set_target_properties(Plugin2 PROPERTIES SUFFIX "")
+if (PF_USE_UNICODE)
+    target_compile_definitions(Plugin2 PRIVATE -DUNICODE -D_UNICODE)
+endif()
+
+# libPluginFramework.a
+add_library(PluginFramework STATIC PluginFramework.cpp)
+if (PF_USE_UNICODE)
+    target_compile_definitions(PluginFramework PRIVATE -DUNICODE -D_UNICODE)
+endif()
 
 # executable
-add_executable(PluginTest PluginFramework.cpp PluginTest.cpp)
-target_link_libraries(PluginTest PRIVATE shlwapi)
+add_executable(PluginTest PluginTest.cpp)
+target_link_libraries(PluginTest PRIVATE PluginFramework shlwapi)
+if (PF_USE_UNICODE)
+    target_compile_definitions(PluginTest PRIVATE -DUNICODE -D_UNICODE)
+endif()
 
 # test
 add_test(NAME PluginTest
