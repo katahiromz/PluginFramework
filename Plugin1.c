@@ -63,10 +63,10 @@ Plugin_Act(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam)
     {
     case 1:
         printf("%d + %d = %d.\n", (int)wParam, (int)lParam, (int)wParam + (int)lParam);
-        return wParam + lParam;
+        return (int)wParam + (int)lParam;
     case 2:
         printf("%d x %d = %d.\n", (int)wParam, (int)lParam, (int)wParam * (int)lParam);
-        return wParam * lParam;
+        return (int)wParam * (int)lParam;
     }
     return 0;
 }
