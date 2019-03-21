@@ -140,9 +140,6 @@ BOOL PF_UnloadOne(PLUGIN *pi)
 
     BOOL ret = pi->framework_impl->unload(pi, 0);
     pi->plugin_instance = NULL;
-    pi->framework_impl->load = NULL;
-    pi->framework_impl->unload = NULL;
-    pi->framework_impl->act = NULL;
     delete pi->framework_impl;
     return ret;
 }
@@ -189,9 +186,9 @@ BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname)
         assert(pi->framework_impl->unload != NULL);
         assert(pi->framework_impl->act != NULL);
 
-        if (pi->framework_impl->load != NULL &&
-            pi->framework_impl->unload != NULL &&
-            pi->framework_impl->act != NULL)
+        if (pi->framework_impl->load &&
+            pi->framework_impl->unload &&
+            pi->framework_impl->act)
         {
             pi->plugin_instance = hInstDLL;
 
