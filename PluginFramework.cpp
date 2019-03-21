@@ -25,7 +25,13 @@ static BOOL PF_Validate(PLUGIN_EX *pi)
         assert(0);
         return FALSE;
     }
-    if (pi->framework_version < FRAMEWORK_VERSION)
+
+    pi->plugin_product_name[ARRAYSIZE(pi->plugin_product_name) - 1] = 0;
+    pi->plugin_filename[ARRAYSIZE(pi->plugin_filename) - 1] = 0;
+    pi->plugin_company[ARRAYSIZE(pi->plugin_company) - 1] = 0;
+    pi->plugin_copyright[ARRAYSIZE(pi->plugin_copyright) - 1] = 0;
+
+    if (pi->framework_version != FRAMEWORK_VERSION)
     {
         assert(0);
         return FALSE;
@@ -41,12 +47,10 @@ static BOOL PF_Validate(PLUGIN_EX *pi)
         return FALSE;
     }
 
-    pi->plugin_product_name[ARRAYSIZE(pi->plugin_product_name) - 1] = 0;
-    pi->plugin_filename[ARRAYSIZE(pi->plugin_filename) - 1] = 0;
-    pi->plugin_company[ARRAYSIZE(pi->plugin_company) - 1] = 0;
-    pi->plugin_copyright[ARRAYSIZE(pi->plugin_copyright) - 1] = 0;
-
-    StrTrim(pi->plugin_product_name, TEXT(" \t\n\r\f\v"));
+    static const TCHAR s_szSpace[] = TEXT(" \t\n\r\f\v");
+    StrTrim(pi->plugin_product_name, s_szSpace);
+    StrTrim(pi->plugin_company, s_szSpace);
+    StrTrim(pi->plugin_copyright, s_szSpace);
 
     if (pi->plugin_product_name[0] == 0)
     {

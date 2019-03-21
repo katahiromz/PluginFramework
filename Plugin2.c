@@ -18,7 +18,7 @@ Plugin_Load(PLUGIN *pi, LPARAM lParam)
         assert(0);
         return FALSE;
     }
-    if (pi->framework_version < FRAMEWORK_VERSION)
+    if (pi->framework_version > FRAMEWORK_VERSION)
     {
         assert(0);
         return FALSE;
