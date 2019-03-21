@@ -2,6 +2,7 @@
 // Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
 // This file is public domain software.
 #include "Plugin.h"
+#include <assert.h>
 #include <strsafe.h>
 
 static HINSTANCE s_hinstDLL;
@@ -12,6 +13,27 @@ static HINSTANCE s_hinstDLL;
 PLUGIN_API BOOL APIENTRY
 Plugin_Load(PLUGIN *pi, LPARAM lParam)
 {
+    if (!pi)
+    {
+        assert(0);
+        return FALSE;
+    }
+    if (pi->framework_version < FRAMEWORK_VERSION)
+    {
+        assert(0);
+        return FALSE;
+    }
+    if (lstrcmpi(pi->framework_name, FRAMEWORK_NAME) != 0)
+    {
+        assert(0);
+        return FALSE;
+    }
+    if (pi->framework_instance == NULL)
+    {
+        assert(0);
+        return FALSE;
+    }
+
     pi->plugin_version = 1;
     StringCbCopy(pi->plugin_product_name, sizeof(pi->plugin_product_name), TEXT("Plugin #1"));
     StringCbCopy(pi->plugin_filename, sizeof(pi->plugin_filename), TEXT("Plugin1.plugin"));
