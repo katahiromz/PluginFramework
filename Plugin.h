@@ -3,6 +3,7 @@
 // This file is public domain software.
 #ifndef PLUGIN_H_
 #define PLUGIN_H_
+// TODO: Rename this file
 
 #ifndef _INC_WINDOWS
     #include <windows.h>
