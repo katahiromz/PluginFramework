@@ -55,7 +55,7 @@ typedef struct PLUGIN
     void *p_user_data;
     LPARAM l_user_data;
 
-    // TODO: Add more members...
+    // TODO: Add more members and version up...
 } PLUGIN;
 
 #ifdef PLUGIN_BUILD
