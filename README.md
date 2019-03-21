@@ -1,0 +1,3 @@
+# PluginFramework
+
+License: MIT
