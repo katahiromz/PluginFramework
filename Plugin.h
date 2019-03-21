@@ -34,7 +34,7 @@ typedef struct PLUGIN
 
     // Please change in Plugin_Load:
     DWORD plugin_version;
-    TCHAR plugin_product_name[32];
+    TCHAR plugin_product_name[64];
     TCHAR plugin_filename[32];
     TCHAR plugin_company[64];
     TCHAR plugin_copyright[128];
