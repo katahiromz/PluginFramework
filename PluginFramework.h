@@ -8,7 +8,7 @@
 #include <vector>
 
 BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname);
-BOOL PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir);
+INT PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir);
 BOOL PF_IsLoaded(PLUGIN *pi);
 LRESULT PF_ActOne(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam);
 LRESULT PF_ActAll(std::vector<PLUGIN>& pis, UINT uAct, WPARAM wParam, LPARAM lParam);

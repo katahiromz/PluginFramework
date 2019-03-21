@@ -218,7 +218,7 @@ BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname)
     return FALSE;
 }
 
-BOOL PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir)
+INT PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir)
 {
     pis.clear();
 
@@ -258,5 +258,5 @@ BOOL PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir)
         FindClose(hFind);
     }
 
-    return !pis.empty();
+    return INT(pis.size());
 }
