@@ -23,6 +23,7 @@ typedef BOOL (APIENTRY *PLUGIN_LOAD)(struct PLUGIN *pi, LPARAM lParam);
 typedef BOOL (APIENTRY *PLUGIN_UNLOAD)(struct PLUGIN *pi, LPARAM lParam);
 typedef LRESULT (APIENTRY *PLUGIN_ACT)(struct PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam);
 
+// NOTE: This structure must be a POD (Plain Old Data).
 typedef struct PLUGIN
 {
     // Don't change:
@@ -31,7 +32,7 @@ typedef struct PLUGIN
     HINSTANCE framework_instance;
     HWND framework_window;
 
-    // Please change:
+    // Please change in Plugin_Load:
     DWORD plugin_version;
     TCHAR plugin_product_name[32];
     TCHAR plugin_filename[32];
