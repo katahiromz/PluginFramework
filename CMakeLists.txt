@@ -68,6 +68,7 @@ endif()
 
 # options
 option(PF_USE_UNICODE "Use Unicode for PluginFramework" OFF)
+message(STATUS "PF_USE_UNICODE = ${PF_USE_UNICODE}")
 
 # Plugin1.plugin
 add_library(Plugin1 SHARED Plugin1.c Plugin1.def)
