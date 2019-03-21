@@ -8,7 +8,7 @@
 #include <shlwapi.h>
 #include <strsafe.h>
 
-static void PF_Init(PLUGIN_EX *pi)
+static void PF_Init(PLUGIN *pi)
 {
     assert(pi);
     ZeroMemory(pi, sizeof(*pi));
@@ -18,7 +18,7 @@ static void PF_Init(PLUGIN_EX *pi)
     pi->framework_window = NULL;
 }
 
-static BOOL PF_Validate(PLUGIN_EX *pi)
+static BOOL PF_Validate(PLUGIN *pi)
 {
     if (!pi)
     {
@@ -89,24 +89,24 @@ static BOOL PF_Validate(PLUGIN_EX *pi)
     return TRUE;
 }
 
-BOOL PF_IsLoaded(PLUGIN_EX *pi)
+BOOL PF_IsLoaded(PLUGIN *pi)
 {
     return pi && !!pi->plugin_instance;
 }
 
-LRESULT PF_ActOne(PLUGIN_EX *pi, UINT uAct, WPARAM wParam, LPARAM lParam)
+LRESULT PF_ActOne(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam)
 {
-    if (!pi || !pi->act)
+    if (!pi || !pi->framework_impl || !pi->framework_impl->act)
     {
         assert(0);
         return FALSE;
     }
 
-    LRESULT ret = pi->act(pi, uAct, wParam, lParam);
+    LRESULT ret = pi->framework_impl->act(pi, uAct, wParam, lParam);
     return ret;
 }
 
-LRESULT PF_ActAll(std::vector<PLUGIN_EX>& pis, UINT uAct, WPARAM wParam, LPARAM lParam)
+LRESULT PF_ActAll(std::vector<PLUGIN>& pis, UINT uAct, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
     for (size_t i = 0; i < pis.size(); ++i)
@@ -116,23 +116,24 @@ LRESULT PF_ActAll(std::vector<PLUGIN_EX>& pis, UINT uAct, WPARAM wParam, LPARAM 
     return ret;
 }
 
-BOOL PF_UnloadOne(PLUGIN_EX *pi)
+BOOL PF_UnloadOne(PLUGIN *pi)
 {
-    if (!pi || !pi->unload)
+    if (!pi || !pi->framework_impl || !pi->framework_impl->unload)
     {
         assert(0);
         return FALSE;
     }
 
-    BOOL ret = pi->unload(pi, 0);
+    BOOL ret = pi->framework_impl->unload(pi, 0);
     pi->plugin_instance = NULL;
-    pi->load = NULL;
-    pi->unload = NULL;
-    pi->act = NULL;
+    pi->framework_impl->load = NULL;
+    pi->framework_impl->unload = NULL;
+    pi->framework_impl->act = NULL;
+    delete pi->framework_impl;
     return ret;
 }
 
-BOOL PF_UnloadAll(std::vector<PLUGIN_EX>& pis)
+BOOL PF_UnloadAll(std::vector<PLUGIN>& pis)
 {
     for (size_t i = 0; i < pis.size(); ++i)
     {
@@ -142,7 +143,7 @@ BOOL PF_UnloadAll(std::vector<PLUGIN_EX>& pis)
     return TRUE;
 }
 
-BOOL PF_LoadOne(PLUGIN_EX *pi, const TCHAR *pathname)
+BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname)
 {
     assert(pathname != NULL);
     GetFullPathName(pathname, ARRAYSIZE(pi->plugin_pathname),
@@ -161,15 +162,26 @@ BOOL PF_LoadOne(PLUGIN_EX *pi, const TCHAR *pathname)
     HINSTANCE hInstDLL = LoadLibrary(pi->plugin_pathname);
     if (hInstDLL)
     {
-        pi->load = (PLUGIN_LOAD)GetProcAddress(hInstDLL, "Plugin_Load");
-        pi->unload = (PLUGIN_UNLOAD)GetProcAddress(hInstDLL, "Plugin_Unload");
-        pi->act = (PLUGIN_ACT)GetProcAddress(hInstDLL, "Plugin_Act");
+        pi->framework_impl = new PLUGIN_IMPL;
 
-        if (pi->load && pi->unload && pi->act)
+        pi->framework_impl->load =
+            (PLUGIN_LOAD)GetProcAddress(hInstDLL, "Plugin_Load");
+        pi->framework_impl->unload =
+            (PLUGIN_UNLOAD)GetProcAddress(hInstDLL, "Plugin_Unload");
+        pi->framework_impl->act =
+            (PLUGIN_ACT)GetProcAddress(hInstDLL, "Plugin_Act");
+
+        assert(pi->framework_impl->load != NULL);
+        assert(pi->framework_impl->unload != NULL);
+        assert(pi->framework_impl->act != NULL);
+
+        if (pi->framework_impl->load != NULL &&
+            pi->framework_impl->unload != NULL &&
+            pi->framework_impl->act != NULL)
         {
             pi->plugin_instance = hInstDLL;
 
-            if (pi->load(pi, 0))
+            if (pi->framework_impl->load(pi, 0))
             {
                 if (PF_Validate(pi))
                 {
@@ -185,11 +197,7 @@ BOOL PF_LoadOne(PLUGIN_EX *pi, const TCHAR *pathname)
                 assert(0);
             }
 
-            pi->unload(pi, 0);
-        }
-        else
-        {
-            assert(0);
+            pi->framework_impl->unload(pi, 0);
         }
 
         FreeLibrary(hInstDLL);
@@ -198,7 +206,7 @@ BOOL PF_LoadOne(PLUGIN_EX *pi, const TCHAR *pathname)
     return FALSE;
 }
 
-BOOL PF_LoadAll(std::vector<PLUGIN_EX>& pis, const TCHAR *dir)
+BOOL PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir)
 {
     pis.clear();
 
@@ -221,7 +229,7 @@ BOOL PF_LoadAll(std::vector<PLUGIN_EX>& pis, const TCHAR *dir)
     {
         do
         {
-            PLUGIN_EX plugin;
+            PLUGIN plugin;
             PF_Init(&plugin);
 
             StringCbCopy(szPath, sizeof(szPath), dir);

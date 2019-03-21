@@ -18,6 +18,7 @@
 #define FRAMEWORK_VERSION 1
 
 struct PLUGIN;
+struct PLUGIN_IMPL;
 
 typedef BOOL (APIENTRY *PLUGIN_LOAD)(struct PLUGIN *pi, LPARAM lParam);
 typedef BOOL (APIENTRY *PLUGIN_UNLOAD)(struct PLUGIN *pi, LPARAM lParam);
@@ -31,6 +32,8 @@ typedef struct PLUGIN
     TCHAR framework_name[32];
     HINSTANCE framework_instance;
     HWND framework_window;
+    TCHAR plugin_pathname[MAX_PATH];
+    struct PLUGIN_IMPL *framework_impl;
 
     // Please fill them in Plugin_Load:
     DWORD plugin_version;

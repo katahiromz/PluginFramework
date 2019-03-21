@@ -12,7 +12,7 @@ int main(int argc, char **argv)
     *PathFindFileName(szDir) = 0;
     PathRemoveBackslash(szDir);
 
-    std::vector<PLUGIN_EX> pis;
+    std::vector<PLUGIN> pis;
     if (!PF_LoadAll(pis, szDir))
     {
         printf("unable to load\n");

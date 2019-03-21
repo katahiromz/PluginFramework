@@ -7,21 +7,26 @@
 #include "Plugin.h"
 #include <vector>
 
-// NOTE: This structure must be a POD (Plain Old Data).
-struct PLUGIN_EX : public PLUGIN
+struct PLUGIN_IMPL
 {
-    TCHAR plugin_pathname[MAX_PATH];
     PLUGIN_LOAD load;
     PLUGIN_UNLOAD unload;
     PLUGIN_ACT act;
+
+    PLUGIN_IMPL()
+    {
+    }
+private:
+    PLUGIN_IMPL(const PLUGIN_IMPL&);
+    PLUGIN_IMPL& operator=(const PLUGIN_IMPL&);
 };
 
-BOOL PF_LoadOne(PLUGIN_EX *pi, const TCHAR *pathname);
-BOOL PF_LoadAll(std::vector<PLUGIN_EX>& pis, const TCHAR *dir);
-BOOL PF_IsLoaded(PLUGIN_EX *pi);
-LRESULT PF_ActOne(PLUGIN_EX *pi, UINT uAct, WPARAM wParam, LPARAM lParam);
-LRESULT PF_ActAll(std::vector<PLUGIN_EX>& pis, UINT uAct, WPARAM wParam, LPARAM lParam);
-BOOL PF_UnloadOne(PLUGIN_EX *pi);
-BOOL PF_UnloadAll(std::vector<PLUGIN_EX>& pis);
+BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname);
+BOOL PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir);
+BOOL PF_IsLoaded(PLUGIN *pi);
+LRESULT PF_ActOne(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam);
+LRESULT PF_ActAll(std::vector<PLUGIN>& pis, UINT uAct, WPARAM wParam, LPARAM lParam);
+BOOL PF_UnloadOne(PLUGIN *pi);
+BOOL PF_UnloadAll(std::vector<PLUGIN>& pis);
 
 #endif  // ndef PLUGIN_FRAMEWORK_H_
