@@ -1,3 +1,6 @@
+// Plugin1.c --- PluginFramework Plugin #1
+// Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
+// This file is public domain software.
 #include "Plugin.h"
 #include <strsafe.h>
 

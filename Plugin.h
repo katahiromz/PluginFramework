@@ -1,3 +1,6 @@
+// Plugin.h --- PluginFramework Plugin interface
+// Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
+// This file is public domain software.
 #ifndef PLUGIN_H_
 #define PLUGIN_H_
 
@@ -66,6 +69,8 @@ PLUGIN_API BOOL APIENTRY Plugin_Unload(PLUGIN *pi, LPARAM lParam);
 // Purpose: Act something on the plugin.
 // TODO: Act something on the plugin.
 PLUGIN_API LRESULT APIENTRY Plugin_Act(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam);
+
+// TODO: Add more APIs
 
 #ifdef __cplusplus
 } // extern "C"
