@@ -42,9 +42,9 @@ typedef struct PLUGIN
     TCHAR plugin_company[64];
     TCHAR plugin_copyright[128];
     HINSTANCE plugin_instance;
-    HWND plugin_window;
 
     // Use freely:
+    HWND plugin_window;
     void *p_user_data;
     LPARAM l_user_data;
 
