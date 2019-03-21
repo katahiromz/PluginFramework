@@ -44,6 +44,8 @@ typedef struct PLUGIN
     // Use freely:
     void *p_user_data;
     LPARAM l_user_data;
+
+    // TODO: Add more members...
 } PLUGIN;
 
 #ifdef PLUGIN_BUILD
