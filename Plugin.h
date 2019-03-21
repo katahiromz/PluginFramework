@@ -32,7 +32,7 @@ typedef struct PLUGIN
     HINSTANCE framework_instance;
     HWND framework_window;
 
-    // Please change in Plugin_Load:
+    // Please fill them in Plugin_Load:
     DWORD plugin_version;
     TCHAR plugin_product_name[64];
     TCHAR plugin_filename[32];
