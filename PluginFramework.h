@@ -7,6 +7,7 @@
 #include "Plugin.h"
 #include <vector>
 
+// NOTE: This structure must be a POD (Plain Old Data).
 struct PLUGIN_EX : public PLUGIN
 {
     TCHAR plugin_pathname[MAX_PATH];
