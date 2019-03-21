@@ -103,7 +103,7 @@ static BOOL PF_Validate(PLUGIN *pi)
     return TRUE;
 }
 
-BOOL PF_IsLoaded(PLUGIN *pi)
+BOOL PF_IsLoaded(const PLUGIN *pi)
 {
     return pi && !!pi->plugin_instance;
 }
