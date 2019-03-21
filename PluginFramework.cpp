@@ -212,6 +212,7 @@ BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname)
             }
 
             pi->framework_impl->unload(pi, 0);
+            delete pi->framework_impl;
         }
 
         FreeLibrary(hInstDLL);
