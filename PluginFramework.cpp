@@ -187,6 +187,10 @@ BOOL PF_LoadOne(PLUGIN_EX *pi, const TCHAR *pathname)
 
             pi->unload(pi, 0);
         }
+        else
+        {
+            assert(0);
+        }
 
         FreeLibrary(hInstDLL);
     }
