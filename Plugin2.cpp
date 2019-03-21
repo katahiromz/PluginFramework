@@ -1,11 +1,15 @@
-// Plugin2.c --- PluginFramework Plugin #2
+// Plugin2.cpp --- PluginFramework Plugin #2
 // Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
 // This file is public domain software.
 #include "Plugin.h"
-#include <assert.h>
+#include <cassert>
 #include <strsafe.h>
 
 static HINSTANCE s_hinstDLL;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // API Name: Plugin_Load
 // Purpose: The framework loads the plugin component.
@@ -18,7 +22,7 @@ Plugin_Load(PLUGIN *pi, LPARAM lParam)
         assert(0);
         return FALSE;
     }
-    if (pi->framework_version > FRAMEWORK_VERSION)
+    if (pi->framework_version < FRAMEWORK_VERSION)
     {
         assert(0);
         return FALSE;
@@ -85,3 +89,7 @@ DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
     }
     return TRUE;
 }
+
+#ifdef __cplusplus
+} // extern "C"
+#endif

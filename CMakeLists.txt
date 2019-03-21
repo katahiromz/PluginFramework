@@ -80,7 +80,7 @@ if (PF_USE_UNICODE)
 endif()
 
 # Plugin2.plugin
-add_library(Plugin2 SHARED Plugin2.c Plugin2.def)
+add_library(Plugin2 SHARED Plugin2.cpp Plugin2.def)
 target_compile_definitions(Plugin2 PRIVATE -DPLUGIN_BUILD)
 set_target_properties(Plugin2 PROPERTIES OUTPUT_NAME "Plugin2.plugin")
 set_target_properties(Plugin2 PROPERTIES PREFIX "")
