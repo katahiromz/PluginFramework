@@ -10,13 +10,19 @@
 #endif
 
 // TODO: Change me!
-#define FRAMEWORK_NAME TEXT("PluginFramework")
+#ifndef FRAMEWORK_NAME
+    #define FRAMEWORK_NAME TEXT("PluginFramework")
+#endif
 
 // TODO: Change me!
-#define FRAMEWORK_SPEC TEXT("*.plugin")
+#ifndef FRAMEWORK_SPEC
+    #define FRAMEWORK_SPEC TEXT("*.plugin")
+#endif
 
 // TODO: Change me!
-#define FRAMEWORK_VERSION 1
+#ifndef FRAMEWORK_VERSION
+    #define FRAMEWORK_VERSION 1
+#endif
 
 struct PLUGIN;
 struct PLUGIN_FRAMEWORK_IMPL;
