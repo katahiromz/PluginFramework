@@ -7,18 +7,18 @@
 #include "Plugin.h"
 #include <vector>
 
-struct PLUGIN_IMPL
+struct PLUGIN_FRAMEWORK_IMPL
 {
     PLUGIN_LOAD load;
     PLUGIN_UNLOAD unload;
     PLUGIN_ACT act;
 
-    PLUGIN_IMPL()
+    PLUGIN_FRAMEWORK_IMPL()
     {
     }
 private:
-    PLUGIN_IMPL(const PLUGIN_IMPL&);
-    PLUGIN_IMPL& operator=(const PLUGIN_IMPL&);
+    PLUGIN_FRAMEWORK_IMPL(const PLUGIN_FRAMEWORK_IMPL&);
+    PLUGIN_FRAMEWORK_IMPL& operator=(const PLUGIN_FRAMEWORK_IMPL&);
 };
 
 BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname);

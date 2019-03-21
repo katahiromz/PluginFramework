@@ -162,7 +162,7 @@ BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname)
     HINSTANCE hInstDLL = LoadLibrary(pi->plugin_pathname);
     if (hInstDLL)
     {
-        pi->framework_impl = new PLUGIN_IMPL;
+        pi->framework_impl = new PLUGIN_FRAMEWORK_IMPL;
 
         pi->framework_impl->load =
             (PLUGIN_LOAD)GetProcAddress(hInstDLL, "Plugin_Load");
