@@ -8,6 +8,20 @@
 #include <shlwapi.h>
 #include <strsafe.h>
 
+struct PLUGIN_FRAMEWORK_IMPL
+{
+    PLUGIN_LOAD load;
+    PLUGIN_UNLOAD unload;
+    PLUGIN_ACT act;
+
+    PLUGIN_FRAMEWORK_IMPL()
+    {
+    }
+private:
+    PLUGIN_FRAMEWORK_IMPL(const PLUGIN_FRAMEWORK_IMPL&);
+    PLUGIN_FRAMEWORK_IMPL& operator=(const PLUGIN_FRAMEWORK_IMPL&);
+};
+
 static void PF_Init(PLUGIN *pi)
 {
     assert(pi);
