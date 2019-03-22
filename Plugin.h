@@ -61,12 +61,6 @@ typedef struct PLUGIN
     // TODO: Add more members and version up...
 } PLUGIN;
 
-#ifdef PLUGIN_BUILD
-    #define PLUGIN_API __declspec(dllexport)
-#else
-    #define PLUGIN_API __declspec(dllimport)
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -74,17 +68,17 @@ extern "C" {
 // API Name: Plugin_Load
 // Purpose: The framework want to load the plugin component.
 // TODO: Load the plugin component.
-PLUGIN_API BOOL APIENTRY Plugin_Load(PLUGIN *pi, LPARAM lParam);
+BOOL APIENTRY Plugin_Load(PLUGIN *pi, LPARAM lParam);
 
 // API Name: Plugin_Unload
 // Purpose: The framework want to unload the plugin component.
 // TODO: Unload the plugin component.
-PLUGIN_API BOOL APIENTRY Plugin_Unload(PLUGIN *pi, LPARAM lParam);
+BOOL APIENTRY Plugin_Unload(PLUGIN *pi, LPARAM lParam);
 
 // API Name: Plugin_Act
 // Purpose: Act something on the plugin.
 // TODO: Act something on the plugin.
-PLUGIN_API LRESULT APIENTRY Plugin_Act(PLUGIN *pi, UINT uAction, WPARAM wParam, LPARAM lParam);
+LRESULT APIENTRY Plugin_Act(PLUGIN *pi, UINT uAction, WPARAM wParam, LPARAM lParam);
 
 // TODO: Add more APIs
 

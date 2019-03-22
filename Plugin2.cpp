@@ -14,7 +14,7 @@ extern "C" {
 // API Name: Plugin_Load
 // Purpose: The framework want to load the plugin component.
 // TODO: Load the plugin component.
-PLUGIN_API BOOL APIENTRY
+BOOL APIENTRY
 Plugin_Load(PLUGIN *pi, LPARAM lParam)
 {
     if (!pi)
@@ -51,7 +51,7 @@ Plugin_Load(PLUGIN *pi, LPARAM lParam)
 // API Name: Plugin_Unload
 // Purpose: The framework want to unload the plugin component.
 // TODO: Unload the plugin component.
-PLUGIN_API BOOL APIENTRY
+BOOL APIENTRY
 Plugin_Unload(PLUGIN *pi, LPARAM lParam)
 {
     return TRUE;
@@ -60,7 +60,7 @@ Plugin_Unload(PLUGIN *pi, LPARAM lParam)
 // API Name: Plugin_Act
 // Purpose: Act something on the plugin.
 // TODO: Act something on the plugin.
-PLUGIN_API LRESULT APIENTRY
+LRESULT APIENTRY
 Plugin_Act(PLUGIN *pi, UINT uAction, WPARAM wParam, LPARAM lParam)
 {
     switch (uAction)
