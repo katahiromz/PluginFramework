@@ -165,6 +165,8 @@ BOOL PF_UnloadAll(std::vector<PLUGIN>& pis)
 
 BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname)
 {
+    PF_Init(pi);
+
     assert(pathname != NULL);
     GetFullPathName(pathname, ARRAYSIZE(pi->plugin_pathname),
                     pi->plugin_pathname, NULL);
@@ -252,7 +254,6 @@ INT PF_LoadAll(std::vector<PLUGIN>& pis, const TCHAR *dir)
         do
         {
             PLUGIN plugin;
-            PF_Init(&plugin);
 
             StringCbCopy(szPath, sizeof(szPath), dir);
             PathAppend(szPath, find.cFileName);
