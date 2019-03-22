@@ -38,6 +38,7 @@ static void PF_Init(PLUGIN *pi)
     pi->framework_instance = GetModuleHandle(NULL);
     pi->framework_window = NULL;
     pi->driver = driver;
+    //pi->driver = NULL;
 }
 
 static BOOL PF_Validate(PLUGIN *pi)
