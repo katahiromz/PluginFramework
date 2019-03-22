@@ -29,7 +29,9 @@ struct PLUGIN_FRAMEWORK_IMPL;
 
 typedef BOOL (APIENTRY *PLUGIN_LOAD)(struct PLUGIN *pi, LPARAM lParam);
 typedef BOOL (APIENTRY *PLUGIN_UNLOAD)(struct PLUGIN *pi, LPARAM lParam);
-typedef LRESULT (APIENTRY *PLUGIN_ACT)(struct PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam);
+typedef LRESULT (APIENTRY *PLUGIN_ACT)(struct PLUGIN *pi, UINT uAction, WPARAM wParam, LPARAM lParam);
+
+typedef LRESULT (APIENTRY *PLUGIN_DRIVER)(struct PLUGIN *pi, UINT uFunc, WPARAM wParam, LPARAM lParam);
 
 // NOTE: This structure must be a POD (Plain Old Data).
 typedef struct PLUGIN
@@ -41,6 +43,7 @@ typedef struct PLUGIN
     HWND framework_window;
     TCHAR plugin_pathname[MAX_PATH];
     struct PLUGIN_FRAMEWORK_IMPL *framework_impl;
+    PLUGIN_DRIVER driver;
 
     // Please fill them in Plugin_Load:
     DWORD plugin_version;
@@ -81,7 +84,7 @@ PLUGIN_API BOOL APIENTRY Plugin_Unload(PLUGIN *pi, LPARAM lParam);
 // API Name: Plugin_Act
 // Purpose: Act something on the plugin.
 // TODO: Act something on the plugin.
-PLUGIN_API LRESULT APIENTRY Plugin_Act(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam);
+PLUGIN_API LRESULT APIENTRY Plugin_Act(PLUGIN *pi, UINT uAction, WPARAM wParam, LPARAM lParam);
 
 // TODO: Add more APIs
 

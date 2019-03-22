@@ -22,6 +22,13 @@ private:
     PLUGIN_FRAMEWORK_IMPL& operator=(const PLUGIN_FRAMEWORK_IMPL&);
 };
 
+static LRESULT APIENTRY driver(struct PLUGIN *pi, UINT uFunc, WPARAM wParam, LPARAM lParam)
+{
+    // TODO:
+    printf("This is PluginFramework.\n");
+    return 0;
+}
+
 static void PF_Init(PLUGIN *pi)
 {
     assert(pi);
@@ -30,6 +37,7 @@ static void PF_Init(PLUGIN *pi)
     StringCbCopy(pi->framework_name, sizeof(pi->framework_name), FRAMEWORK_NAME);
     pi->framework_instance = GetModuleHandle(NULL);
     pi->framework_window = NULL;
+    pi->driver = driver;
 }
 
 static BOOL PF_Validate(PLUGIN *pi)
@@ -108,7 +116,7 @@ BOOL PF_IsLoaded(const PLUGIN *pi)
     return pi && !!pi->plugin_instance;
 }
 
-LRESULT PF_ActOne(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam)
+LRESULT PF_ActOne(PLUGIN *pi, UINT uAction, WPARAM wParam, LPARAM lParam)
 {
     if (!pi || !pi->framework_impl || !pi->framework_impl->act)
     {
@@ -116,16 +124,16 @@ LRESULT PF_ActOne(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam)
         return FALSE;
     }
 
-    LRESULT ret = pi->framework_impl->act(pi, uAct, wParam, lParam);
+    LRESULT ret = pi->framework_impl->act(pi, uAction, wParam, lParam);
     return ret;
 }
 
-LRESULT PF_ActAll(std::vector<PLUGIN>& pis, UINT uAct, WPARAM wParam, LPARAM lParam)
+LRESULT PF_ActAll(std::vector<PLUGIN>& pis, UINT uAction, WPARAM wParam, LPARAM lParam)
 {
     LRESULT ret = 0;
     for (size_t i = 0; i < pis.size(); ++i)
     {
-        ret = PF_ActOne(&pis[i], uAct, wParam, lParam);
+        ret = PF_ActOne(&pis[i], uAction, wParam, lParam);
     }
     return ret;
 }

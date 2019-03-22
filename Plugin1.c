@@ -57,15 +57,17 @@ Plugin_Unload(PLUGIN *pi, LPARAM lParam)
 // Purpose: Act something on the plugin.
 // TODO: Act something on the plugin.
 PLUGIN_API LRESULT APIENTRY
-Plugin_Act(PLUGIN *pi, UINT uAct, WPARAM wParam, LPARAM lParam)
+Plugin_Act(PLUGIN *pi, UINT uAction, WPARAM wParam, LPARAM lParam)
 {
-    switch (uAct)
+    switch (uAction)
     {
     case 1:
         printf("%d + %d = %d.\n", (int)wParam, (int)lParam, (int)wParam + (int)lParam);
+        pi->driver(pi, 0, 0, 0);
         return (int)wParam + (int)lParam;
     case 2:
         printf("%d x %d = %d.\n", (int)wParam, (int)lParam, (int)wParam * (int)lParam);
+        pi->driver(pi, 0, 0, 0);
         return (int)wParam * (int)lParam;
     }
     return 0;
