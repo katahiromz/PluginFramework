@@ -184,6 +184,7 @@ BOOL PF_LoadOne(PLUGIN *pi, const TCHAR *pathname)
     {
         pi->framework_impl = new PLUGIN_FRAMEWORK_IMPL;
 
+        // TODO: Load API functions
         pi->framework_impl->load =
             (PLUGIN_LOAD)GetProcAddress(hInstDLL, "Plugin_Load");
         pi->framework_impl->unload =
